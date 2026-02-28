@@ -2,6 +2,7 @@
 {
     internal class Program
     {
+        static string studentName;
         static string[] attendance = new string[7];
         static List<string> attendanceLogs = new List<string>();
 
@@ -9,22 +10,46 @@
         {
             Console.WriteLine("ATTENDANCE MANAGEMENT SYSTEM");
 
-            bool isRecord = Option();
 
-            while (isRecord)
+
+            bool addAnotherStudent = true;
+
+            while (addAnotherStudent)
             {
-                Record();
-                Summary();
+                InputStudentName();
+                bool isRecord = Option();
 
-                isRecord = Option();
+                while (isRecord)
+                {
+                    Record();
+                    Summary();
+
+                    isRecord = Option();
+                }
+
+
+                DisplayLogs();
+                Console.Write("\nDo you want to record another attendance? yes/no: ");
+                string choice = Console.ReadLine().ToLower();
+                if (choice != "yes")
+                {
+                    addAnotherStudent = false;
+                }
+                attendanceLogs.Clear();
+                attendance = new string[7];
+
             }
-
-            DisplayLogs();
+        }
+        static void InputStudentName()
+        {
+            Console.Write("Enter Students Name: ");
+            studentName = Console.ReadLine();
+            Console.WriteLine("\nRecording attendance for " + studentName + "\n");
         }
         static bool Option()
         {
             Console.Write("Do you want to record attendance? yes/no: ");
-            string input = Console.ReadLine();
+            string input = Console.ReadLine().ToLower();
 
             bool isRecord = false;
 
@@ -39,6 +64,7 @@
                 default:
                     Console.WriteLine("Invalid input. System will exit.");
                     Environment.Exit(0);
+                    return false;
                     break;
             }
 
@@ -51,12 +77,17 @@
                 Console.Write("Day " + (i + 1) + " (P/A): ");
                 string input = Console.ReadLine();
 
-                if (input == "P" || input == "p")
+                if (input.Equals("P", StringComparison.OrdinalIgnoreCase))
                 {
                     attendance[i] = "Present";
                 }
+                else if(input.Equals("A", StringComparison.OrdinalIgnoreCase))
+                {
+                    attendance[i] = "Absent";
+                }
                 else
                 {
+                    Console.WriteLine("Invalid Input. Marked as absent.");
                     attendance[i] = "Absent";
                 }
 
@@ -84,16 +115,16 @@
                 }
             }
 
-            double percentage = (present / 7.0) * 100;
+            double percentage = (present / (double)attendance.Length) * 100;
 
-            Console.WriteLine("\nAttendance Summary");
+            Console.WriteLine("\nAttendance Summary for: "+studentName);
             Console.WriteLine("Present: " + present);
             Console.WriteLine("Absent : " + absent);
-            Console.WriteLine("Percentage: " + percentage + "%\n");
+            Console.WriteLine("Percentage: " + percentage.ToString("0.00") + "%\n");
         }
         static void DisplayLogs()
         {
-            Console.WriteLine("Attendance Logs:");
+            Console.WriteLine("Attendance Logs for: "+studentName);
             foreach (var log in attendanceLogs)
             {
                 Console.WriteLine(log);
