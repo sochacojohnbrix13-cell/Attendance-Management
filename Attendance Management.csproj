@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AttendanceAppService\AttendanceAppService.csproj" />
-    <ProjectReference Include="..\Attendance\Attendance.csproj" />
+    <ProjectReference Include="..\Attendance\AttendanceModels.csproj" />
   </ItemGroup>
 
 </Project>
