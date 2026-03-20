@@ -1,9 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.11.35327.3
+# Visual Studio Version 18
+VisualStudioVersion = 18.4.11605.240 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Attendance Management", "Attendance Management.csproj", "{A97B975B-91B1-4291-BB23-18A37CE09186}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{49CDFA07-B9AE-47B1-BF05-8C0AD84FC99A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Attendance", "..\Attendance\Attendance.csproj", "{3058C936-E23E-4FAF-807F-74D7EBEADA99}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{BABB00EC-1B77-47E3-9511-720355E90A4B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttendanceDataService", "..\DataService\AttendanceDataService.csproj", "{D05F8FD6-AEEC-42EA-9F7B-B355131AD610}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{EB143B06-6FA6-4434-BD92-9EB86D0509AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttendanceAppService", "..\AttendanceAppService\AttendanceAppService.csproj", "{B8DBE748-EB59-4788-92EE-E0E3D0841BBA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +27,26 @@ Global
 		{A97B975B-91B1-4291-BB23-18A37CE09186}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A97B975B-91B1-4291-BB23-18A37CE09186}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A97B975B-91B1-4291-BB23-18A37CE09186}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3058C936-E23E-4FAF-807F-74D7EBEADA99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3058C936-E23E-4FAF-807F-74D7EBEADA99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3058C936-E23E-4FAF-807F-74D7EBEADA99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3058C936-E23E-4FAF-807F-74D7EBEADA99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D05F8FD6-AEEC-42EA-9F7B-B355131AD610}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D05F8FD6-AEEC-42EA-9F7B-B355131AD610}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D05F8FD6-AEEC-42EA-9F7B-B355131AD610}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D05F8FD6-AEEC-42EA-9F7B-B355131AD610}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8DBE748-EB59-4788-92EE-E0E3D0841BBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8DBE748-EB59-4788-92EE-E0E3D0841BBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8DBE748-EB59-4788-92EE-E0E3D0841BBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8DBE748-EB59-4788-92EE-E0E3D0841BBA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3058C936-E23E-4FAF-807F-74D7EBEADA99} = {49CDFA07-B9AE-47B1-BF05-8C0AD84FC99A}
+		{D05F8FD6-AEEC-42EA-9F7B-B355131AD610} = {BABB00EC-1B77-47E3-9511-720355E90A4B}
+		{B8DBE748-EB59-4788-92EE-E0E3D0841BBA} = {EB143B06-6FA6-4434-BD92-9EB86D0509AF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {742202E7-0191-48AB-96F1-2C10C1CB8383}

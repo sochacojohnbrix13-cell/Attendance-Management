@@ -8,4 +8,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AttendanceAppService\AttendanceAppService.csproj" />
+    <ProjectReference Include="..\Attendance\Attendance.csproj" />
+  </ItemGroup>
+
 </Project>
