@@ -1,15 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.4.11605.240 stable
+VisualStudioVersion = 18.4.11605.240
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Attendance Management", "Attendance Management.csproj", "{A97B975B-91B1-4291-BB23-18A37CE09186}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttendanceModels", "..\Attendance\AttendanceModels.csproj", "{3058C936-E23E-4FAF-807F-74D7EBEADA99}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttendanceDataService", "..\DataService\AttendanceDataService.csproj", "{D05F8FD6-AEEC-42EA-9F7B-B355131AD610}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttendanceAppService", "..\AttendanceAppService\AttendanceAppService.csproj", "{B8DBE748-EB59-4788-92EE-E0E3D0841BBA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,18 +15,6 @@ Global
 		{A97B975B-91B1-4291-BB23-18A37CE09186}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A97B975B-91B1-4291-BB23-18A37CE09186}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A97B975B-91B1-4291-BB23-18A37CE09186}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3058C936-E23E-4FAF-807F-74D7EBEADA99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3058C936-E23E-4FAF-807F-74D7EBEADA99}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3058C936-E23E-4FAF-807F-74D7EBEADA99}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3058C936-E23E-4FAF-807F-74D7EBEADA99}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D05F8FD6-AEEC-42EA-9F7B-B355131AD610}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D05F8FD6-AEEC-42EA-9F7B-B355131AD610}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D05F8FD6-AEEC-42EA-9F7B-B355131AD610}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D05F8FD6-AEEC-42EA-9F7B-B355131AD610}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B8DBE748-EB59-4788-92EE-E0E3D0841BBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B8DBE748-EB59-4788-92EE-E0E3D0841BBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B8DBE748-EB59-4788-92EE-E0E3D0841BBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B8DBE748-EB59-4788-92EE-E0E3D0841BBA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
