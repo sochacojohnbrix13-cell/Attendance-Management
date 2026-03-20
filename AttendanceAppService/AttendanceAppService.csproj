@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Attendance\AttendanceModels.csproj" />
-    <ProjectReference Include="..\DataService\AttendanceDataService.csproj" />
+    <ProjectReference Include="..\AttendanceDataService\AttendanceDataService.csproj" />
+    <ProjectReference Include="..\AttendanceModels\AttendanceModels.csproj" />
   </ItemGroup>
 
 </Project>
