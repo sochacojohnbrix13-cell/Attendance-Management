@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using AttendanceManagementModels;
 using AttendanceManagementAppService;
 
@@ -11,63 +12,181 @@ namespace Attendance_Management
 
         static void Main(string[] args)
         {
-            Console.WriteLine("ATTENDANCE MANAGEMENT SYSTEM");
+            bool running = true;
 
-            bool addAnotherStudent = true;
-
-            while (addAnotherStudent)
+            while (running)
             {
-                Console.Write("Enter Student Name: ");
-                string studentName = Console.ReadLine();
+                Console.WriteLine("\nATTENDANCE MANAGEMENT SYSTEM");
+                Console.WriteLine("1. Add Attendance");
+                Console.WriteLine("2. View All");
+                Console.WriteLine("3. Update Attendance");
+                Console.WriteLine("4. Delete Attendance");
+                Console.WriteLine("5. Exit");
+                Console.Write("Choose: ");
 
-                Attendance newAttendance = new Attendance
+                string choice = Console.ReadLine();
+
+                switch (choice)
                 {
-                    AttendanceId = Guid.NewGuid(),
-                    StudentName = studentName
-                };
-
-                RecordAttendance(newAttendance);
-
-                attendanceService.AddAttendance(newAttendance);
-
-                ShowSummary(newAttendance);
-
-                DisplayLogs(studentName);
-
-                Console.Write("\nDo you want to record another attendance? yes/no: ");
-                string choice = Console.ReadLine().ToLower();
-
-                if (choice != "yes")
-                    addAnotherStudent = false;
-
-                attendanceLogs.Clear();
+                    case "1":
+                        AddAttendance();
+                        break;
+                    case "2":
+                        ViewAll();
+                        break;
+                    case "3":
+                        UpdateAttendance();
+                        break;
+                    case "4":
+                        DeleteAttendance();
+                        break;
+                    case "5":
+                        running = false;
+                        break;
+                    default:
+                        Console.WriteLine("Invalid choice");
+                        break;
+                }
             }
+        }
+
+        static void AddAttendance()
+        {
+            Console.Write("Enter Student Name: ");
+            string name = Console.ReadLine();
+
+            Attendance attendance = new Attendance
+            {
+                AttendanceId = Guid.NewGuid(),
+                StudentName = name,
+                Records = new List<string>()
+            };
+
+            RecordAttendance(attendance);
+
+            attendanceService.AddAttendance(attendance);
+
+            ShowSummary(attendance);
+
+            Console.WriteLine("Attendance added!");
+            attendanceLogs.Clear();
+        }
+
+        static void ViewAll()
+        {
+            var list = attendanceService.GetAttendances();
+
+            foreach (var item in list)
+            {
+                Console.WriteLine($"\nID: {item.AttendanceId}");
+                Console.WriteLine($"Name: {item.StudentName}");
+
+                for (int i = 0; i < item.Records.Count; i++)
+                {
+                    Console.WriteLine($"Day {i + 1}: {item.Records[i]}");
+                }
+
+                var summary = attendanceService.GetSummary(item.Records);
+                Console.WriteLine($"Present: {summary.present}, Absent: {summary.absent}, %: {summary.percentage:F2}");
+            }
+        }
+
+        static void UpdateAttendance()
+        {
+            Console.Write("Enter Attendance ID: ");
+            if (!Guid.TryParse(Console.ReadLine(), out Guid id))
+            {
+                Console.WriteLine("Invalid ID");
+                return;
+            }
+
+            Console.Write("Enter New Name: ");
+            string name = Console.ReadLine();
+
+            Attendance updated = new Attendance
+            {
+                AttendanceId = id,
+                StudentName = name,
+                Records = new List<string>()
+            };
+
+            RecordAttendance(updated);
+
+            if (attendanceService.UpdateAttendance(updated))
+            {
+                Console.WriteLine("Updated successfully!");
+                ShowSummary(updated);
+            }
+            else
+            {
+                Console.WriteLine("Record not found");
+            }
+
+            attendanceLogs.Clear();
+        }
+
+        static void DeleteAttendance()
+        {
+            Console.Write("Enter Attendance ID: ");
+            if (!Guid.TryParse(Console.ReadLine(), out Guid id))
+            {
+                Console.WriteLine("Invalid ID");
+                return;
+            }
+
+            if (attendanceService.DeleteAttendance(id))
+                Console.WriteLine("Deleted successfully!");
+            else
+                Console.WriteLine("Record not found");
         }
 
         static void RecordAttendance(Attendance attendance)
         {
-            for (int i = 0; i < attendance.Days.Length; i++)
+            Console.Write("How many days to record? ");
+            if (!int.TryParse(Console.ReadLine(), out int totalDays) || totalDays <= 0)
             {
-                Console.Write("Day " + (i + 1) + " (P/A): ");
+                Console.WriteLine("Invalid number");
+                return;
+            }
+
+            int presentCount = 0;
+
+            for (int i = 0; i < totalDays; i++)
+            {
+                Console.Write($"Day {i + 1} (P/A): ");
                 string input = Console.ReadLine();
 
+                string status;
                 if (input.Equals("P", StringComparison.OrdinalIgnoreCase))
-                    attendance.Days[i] = "Present";
+                {
+                    status = "Present";
+                    presentCount++;
+                }
                 else
-                    attendance.Days[i] = "Absent";
+                {
+                    status = "Absent";
+                }
 
-                attendanceLogs.Add("Day " + (i + 1) + " : " + attendance.Days[i]);
+                attendance.Records.Add(status);
             }
+            attendance.Days = presentCount;
         }
 
         static void ShowSummary(Attendance attendance)
         {
-            var result = attendanceService.GetSummary(attendance.Days);
+            Console.WriteLine($"\nAttendance Summary for: {attendance.StudentName}");
+            Console.WriteLine("Days Present: " + attendance.Days);
 
-            Console.WriteLine("\nAttendance Summary for: " + attendance.StudentName);
-            Console.WriteLine("Present: " + result.present);
-            Console.WriteLine("Absent : " + result.absent);
-            Console.WriteLine("Percentage: " + result.percentage.ToString("0.00") + "%\n");
+            for (int i = 0; i < attendance.Records.Count; i++)
+            {
+                Console.WriteLine($"Day {i + 1}: {attendance.Records[i]}");
+            }
+
+            double percentage = attendance.Records.Count > 0
+                ? ((double)attendance.Days / attendance.Records.Count) * 100
+                : 0;
+
+            Console.WriteLine("Attendance Percentage: " + percentage.ToString("0.00") + "%\n");
         }
 
         static void DisplayLogs(string studentName)

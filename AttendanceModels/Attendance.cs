@@ -9,7 +9,12 @@ namespace AttendanceManagementModels
     public class Attendance
     {
         public Guid AttendanceId { get; set; }
-        public string StudentName { get; set; }
-        public string[] Days { get; set; } = new string[7];
+        public string StudentName { get; set; } = string.Empty;
+
+        public List<string> Records { get; set; } = new List<string>();
+
+        public int Days { get; set; }
+
+
     }
 }

@@ -1,0 +1,12 @@
+[
+  {
+    "AttendanceId": "d3b07384-d9a3-4b4f-9c1e-123456789abc",
+    "StudentName": "John Brix Sochaco",
+    "Days": 10
+  },
+  {
+    "AttendanceId": "a1f5c8e2-7b9f-4c2a-8d77-987654321def",
+    "StudentName": "Raven Louie Mancao",
+    "Days": 8
+  }
+]
