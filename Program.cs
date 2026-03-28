@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AttendanceManagementModels;
 using AttendanceManagementAppService;
 
+
 namespace Attendance_Management
 {
     internal class Program
@@ -27,7 +28,7 @@ namespace Attendance_Management
                 Console.WriteLine("7. Exit");
                 Console.Write("Choose: ");
                 // Read the user's choice from the console
-                string choice = Console.ReadLine();
+                string choice = Console.ReadLine() ?? string.Empty;
 
                 switch (choice)
                 {
@@ -64,7 +65,7 @@ namespace Attendance_Management
         static void AddAttendance()
         {
             Console.Write("Enter Student Name: ");
-            string name = Console.ReadLine();
+            string name = Console.ReadLine() ?? string.Empty;
 
             // Validate the student name input
             if (string.IsNullOrWhiteSpace(name))
@@ -120,7 +121,7 @@ namespace Attendance_Management
             }
             
             Console.Write("Enter New Name: ");
-            string name = Console.ReadLine();
+            string name = Console.ReadLine() ?? string.Empty;
 
             Attendance updated = new Attendance
             {
@@ -162,7 +163,7 @@ namespace Attendance_Management
         static void SearchStudent()
         {
             Console.Write("Enter name to search: ");
-            string name = Console.ReadLine();
+            string name = Console.ReadLine() ?? string.Empty;
 
             var results = attendanceService.SearchByName(name);
 
