@@ -12,6 +12,7 @@ namespace Attendance_Management
 
         static void Main(string[] args)
         {
+            // Main loop to display the menu and handle user input
             bool running = true;
 
             while (running)
@@ -21,9 +22,11 @@ namespace Attendance_Management
                 Console.WriteLine("2. View All");
                 Console.WriteLine("3. Update Attendance");
                 Console.WriteLine("4. Delete Attendance");
-                Console.WriteLine("5. Exit");
+                Console.WriteLine("5. Search Student");
+                Console.WriteLine("6. View by ID");
+                Console.WriteLine("7. Exit");
                 Console.Write("Choose: ");
-
+                // Read the user's choice from the console
                 string choice = Console.ReadLine();
 
                 switch (choice)
@@ -41,19 +44,34 @@ namespace Attendance_Management
                         DeleteAttendance();
                         break;
                     case "5":
+                        SearchStudent();
+                        break;
+                    case "6":
+                        ViewById();
+                        break;
+                    case "7":
                         running = false;
                         break;
                     default:
                         Console.WriteLine("Invalid choice");
                         break;
                 }
+                Pause();
             }
         }
 
+        // Method to add a new attendance record for a student
         static void AddAttendance()
         {
             Console.Write("Enter Student Name: ");
             string name = Console.ReadLine();
+
+            // Validate the student name input
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                Console.WriteLine("Name cannot be empty");
+                return;
+            }
 
             Attendance attendance = new Attendance
             {
@@ -61,17 +79,17 @@ namespace Attendance_Management
                 StudentName = name,
                 Records = new List<string>()
             };
-
+            // Call the method to record attendance for the student
             RecordAttendance(attendance);
-
+            // Add the attendance record to the service
             attendanceService.AddAttendance(attendance);
-
+            // Display the summary of the attendance record
             ShowSummary(attendance);
 
             Console.WriteLine("Attendance added!");
             attendanceLogs.Clear();
         }
-
+        // Method to view all attendance records
         static void ViewAll()
         {
             var list = attendanceService.GetAttendances();
@@ -85,12 +103,13 @@ namespace Attendance_Management
                 {
                     Console.WriteLine($"Day {i + 1}: {item.Records[i]}");
                 }
-
+               
                 var summary = attendanceService.GetSummary(item.Records);
                 Console.WriteLine($"Present: {summary.present}, Absent: {summary.absent}, %: {summary.percentage:F2}");
             }
         }
 
+        // Method to update an existing attendance record
         static void UpdateAttendance()
         {
             Console.Write("Enter Attendance ID: ");
@@ -99,7 +118,7 @@ namespace Attendance_Management
                 Console.WriteLine("Invalid ID");
                 return;
             }
-
+            
             Console.Write("Enter New Name: ");
             string name = Console.ReadLine();
 
@@ -109,7 +128,7 @@ namespace Attendance_Management
                 StudentName = name,
                 Records = new List<string>()
             };
-
+            // Call the method to record attendance for the student
             RecordAttendance(updated);
 
             if (attendanceService.UpdateAttendance(updated))
@@ -124,7 +143,7 @@ namespace Attendance_Management
 
             attendanceLogs.Clear();
         }
-
+        // Method to delete an attendance record based on its ID
         static void DeleteAttendance()
         {
             Console.Write("Enter Attendance ID: ");
@@ -139,7 +158,39 @@ namespace Attendance_Management
             else
                 Console.WriteLine("Record not found");
         }
+        // Method to view an attendance record by its ID
+        static void SearchStudent()
+        {
+            Console.Write("Enter name to search: ");
+            string name = Console.ReadLine();
 
+            var results = attendanceService.SearchByName(name);
+
+            if (results.Count == 0)
+            {
+                Console.WriteLine("No results found.");
+                return;
+            }
+
+            foreach (var item in results)
+                ShowSummary(item);
+        }
+        // Method to view an attendance record by its ID
+        static void ViewById()
+        {
+            Console.Write("Enter ID: ");
+            if (Guid.TryParse(Console.ReadLine(), out Guid id))
+            {
+                var item = attendanceService.GetById(id);
+
+                if (item != null)
+                    ShowSummary(item);
+                else
+                    Console.WriteLine("Record not found");
+            }
+        }
+
+        // Method to record attendance for a student, allowing the user to input the attendance status for a specified number of days
         static void RecordAttendance(Attendance attendance)
         {
             Console.Write("How many days to record? ");
@@ -153,25 +204,29 @@ namespace Attendance_Management
 
             for (int i = 0; i < totalDays; i++)
             {
-                Console.Write($"Day {i + 1} (P/A): ");
-                string input = Console.ReadLine();
-
-                string status;
-                if (input.Equals("P", StringComparison.OrdinalIgnoreCase))
+                string input;
+                // Loop to ensure valid input for attendance status (Present/Absent)
+                do
                 {
-                    status = "Present";
+                    Console.Write($"Day {i + 1} (P/A): ");
+                    input = Console.ReadLine().ToUpper();
+                }
+                while (input != "P" && input != "A");
+
+                if (input == "P")
+                {
+                    attendance.Records.Add("Present");
                     presentCount++;
                 }
                 else
                 {
-                    status = "Absent";
+                    attendance.Records.Add("Absent");
                 }
-
-                attendance.Records.Add(status);
             }
             attendance.Days = presentCount;
         }
 
+        // Method to display a summary of the attendance record for a student
         static void ShowSummary(Attendance attendance)
         {
             Console.WriteLine($"\nAttendance Summary for: {attendance.StudentName}");
@@ -188,7 +243,7 @@ namespace Attendance_Management
 
             Console.WriteLine("Attendance Percentage: " + percentage.ToString("0.00") + "%\n");
         }
-
+        // Method to display the attendance logs for a specific student
         static void DisplayLogs(string studentName)
         {
             Console.WriteLine("Attendance Logs for: " + studentName);
@@ -197,6 +252,13 @@ namespace Attendance_Management
             {
                 Console.WriteLine(log);
             }
+        }
+        // Method to pause the console and wait for user input before clearing the screen
+        static void Pause()
+        {
+            Console.WriteLine("\nPress any key to continue...");
+            Console.ReadKey();
+            Console.Clear();
         }
     }
 }
